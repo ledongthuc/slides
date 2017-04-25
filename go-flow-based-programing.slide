@@ -1,0 +1,151 @@
+Flow-based programming
+In Golang
+25 Apr 2017
+Tags: golang, flow, paradigm
+
+Thuc Le
+Software Engineer, Culture Match
+ledongthuc@gmail.com
+@ThucLeDong
+
+* Defination
+
+Flow-based Programing is a programing paradigm that defines applications as networks of *black* *box* *processes* which exchange data across *predefined* *connections* by *message* *passing*, where connections are *specified* *externally* to the processes. 
+- Paul Morrison
+
+.image go-flow-based-programing/paul_morrison.jpg _ 500
+
+* Core concepts
+
+* Process
+- The process is black box process
+- The data factory
+- The box doesn't care the outside world
+
+.image go-flow-based-programing/concept_black_box_process.png
+
+* Ports
+- Way the processes communicate with outside world
+- A process one or many inputs/outputs ports
+- The "black box" process looks like data factory
+
+.image go-flow-based-programing/concept_ports.png
+
+: Currently, the processes work with input/output but they're still independent
+: We only see the parts of application. We don't know how process work together. We don't know what's flow of application
+: So we need something called connection
+
+* Connection
+- The network is defined externally to the processes
+- The blackbox processes can be reuse in other application by re-conected without any changes.
+- The connections work as streams of structured data chunks, called information packages (IPs)
+
+.image go-flow-based-programing/concept_connection.png
+
+: The connection link between processes through their port
+: It's defined independently with the process. 
+: When we change the flow of application, We don't need to change anything inside of the blackbox processes. And when we change the logic of a blackbox, we also don't need break the flow.
+: One important thing in concept of FBP, the connection works like the streams with buffer. The data is transfered is called structed data chunks or information packages (IPs). It's green circles in image
+
+* Other notes:
+- More than one process can execute the same piece of code
+- Processes work asynchronously
+
+.image go-flow-based-programing/concept_fbp.png
+
+: The blackbox processes can be reuseable. So, a the same piece of the code can be excuted by many processes at the same time.
+: You can see in the image, the `Split words` box get the content data, process and return the list of words. 'Split words' box doesn't wait  `Counter` box done to continue, but it get next content and split. So the processes work asynchronously. The processes don't wait another.
+
+* Benefits:
+- Improve the workflow visualization
+- When develop the process, we focus on components development. It's easier for coding and testing.
+- When develop the network, we focus on application's flow.
+- FBP applications generally run in less elapsed time than conventional programs
+
+: The FBP ask us to draw the flow of application before converting to source code. It makes the application flow is more visual and easy to understand with complex flows.
+: When develop the process, we focus on components development. What's input, how to process and return the result. It's easier for coding and testing.
+: When develop the network, we focus on application's flow, how the business run. We have time to focus on general picture  of application
+: Because FBP processes can continue executing as long they have data to work on and somewhere to put their output, FBP applications generally run in less elapsed time than conventional programs, and make optimal use of all the processors on a machine, with no special programming required.
+
+* Drawback
+- Complex the simple logic
+- Take time of CPU to setup of the network of processes before running
+
+: With the simple logic application, it's make the application code more complex
+: We will take a little time to create the instance of processes, link them together by connection before using it.
+: Next, we continue to how to implement the Flow-based programming in Golang
+
+* Goflow
+
+: Currently, my company implements the Flow-based programming based on Goflow
+
+* Goflow
+- A library of golang to implement the Flow-based programming model.
+- https://github.com/trustmaster/goflow
+- Try with simple application:
+
+.image go-flow-based-programing/demo_fbp.png
+
+: It's golang's library that support to implement Flow-based programming.
+: You can go to this library at link I share in slide.
+: So I will go to step by step of this library by example to create a simple application
+: This is application use to print the greeter sentence with your name. Example Hello Lazada
+: 1st,  greeter process will be get the name and return the sentence greeter, the 2nd, printer process that used to print the input content
+
+: Goflow
+
+* Goflow - Define processes
+
+.code -numbers go-flow-based-programing/demo_goflow.go /START GREETING/,/END GREETING/
+
+* Goflow - Define processes
+
+.code -numbers go-flow-based-programing/demo_goflow.go /START PRINTER/,/END PRINTER/
+
+: So next, how we network them as the application
+
+* Goflow - Networking
+
+.code -numbers go-flow-based-programing/demo_goflow.go /START NETWORKING/,/END NETWORKING/
+
+: In goflow, the connection is channel of specific type
+
+* Goflow - Run
+
+.code -numbers go-flow-based-programing/demo_goflow.go /START RUN/,/END RUN/
+
+* Goflow - Benchmark
+
+- Run normally: 1.8-1.9 seconds
+- Run goflow: 1.5-1.7 seconds
+
+* Goflow - Additional features
+- Goflow supports 3 types of ports: Input port, output port bi-direction port
+- Support method raise when a connection is closed
+
+  func (p *Printer) OnLine(line string) {
+    fmt.Println(line)
+  }
+
+  func (c *ComponentType) OnLineClose() {
+    // Clean something
+  }
+
+: Based on channel, the goflow supports 3 types of ports: Input port, output port bi-direction port
+: The goflow support event when the connection are close to clean the data or resource
+
+* Real project
+
+Where to apply (describe about project)
+How to apply Components models
+Performance
+
+* Advantages
+
+ - 
+
+* Disadvantages
+
+ -
+
+* Roadmap
