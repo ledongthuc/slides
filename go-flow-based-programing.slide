@@ -119,8 +119,64 @@ Flow-based Programing is a programing paradigm that defines applications as netw
 - Run normally: 1.8-1.9 seconds
 - Run goflow: 1.5-1.7 seconds
 
-* Goflow - Additional features
+* Goflow - Concurrency model
+Goflow 3 different concurrency models at process level
+- Asynchronous
+- Synchronous
+- Pool of workers
+
+  greeter := new(Greeter)
+
+  // Sync mode
+  greeter.Component.Mode = flow.ComponentModeAsync
+
+  // Sync mode
+  greeter.Component.Mode = flow.ComponentModeSync
+
+  // Pool of workers mode
+  greeter.Component.Mode = flow.ComponentModePool
+  greeter.Component.PoolSize = 8 // 8 workers in the crew
+
+: Goflow support us 3 different concurrency models
+: The first one is Asynchronous. Each time a process receive a input data. It will spawns a new goroutine to handle it. So, if we have 2 input at the same time, they won't be blocked together. It's default
+: The next one is Synchronous. Only one goroutine is swans to handle logic of a process. 
+: The last one is pool of workers. It's the same with Asynchronous model with limit of workers to run.
+
+* Goflow - State lock
+- Support built-in lock in process
+
+```
+type StateExample struct {
+	flow.Component
+
+	In1 <-chan string
+
+	// lock
+	StateLock *sync.Mutex
+
+	// state
+	counter int       
+	buffer  [32]string 
+}
+
+func (p *StateExample) OnIn2(item String) {
+	// We can safely modify fields here
+	p.buffer = append(item, s)
+	p.counter++
+}
+```
+
+: GoFlow provides a built-in mechanism to make state modification thread-safe for asynchronous processes
+
+* Goflow - Types of port
 - Goflow supports 3 types of ports: Input port, output port bi-direction port
+  type PortExample struct {
+    flow.Component
+    Foo <-chan int  // receive-only inport
+    Bar chan<- int  // send-only outport
+    Boo chan string // can be inport or outport
+  }
+
 - Support method raise when a connection is closed
 
   func (p *Printer) OnLine(line string) {
