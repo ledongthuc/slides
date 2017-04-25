@@ -8,25 +8,41 @@ Software Engineer, Culture Match
 ledongthuc@gmail.com
 @ThucLeDong
 
-* Defination
+: Hello, I'm Thuc. I'm software developer of Culture Match. It's research company to build an algorithm to match people's personalities to companies based upon CULTURE FIT
+: When working on Culture Match, one of model programming we frequently to use is Flow-based programming. 
+: Today, I hope I can share what's I know about this model to you
+: The first thing we need to talk about, what's flow-based programming
+
+* Definition
 
 Flow-based Programing is a programing paradigm that defines applications as networks of *black* *box* *processes* which exchange data across *predefined* *connections* by *message* *passing*, where connections are *specified* *externally* to the processes. 
 - Paul Morrison
 
 .image go-flow-based-programing/paul_morrison.jpg _ 500
 
+: As the definition, the flow based programming is ...
+: Is it hard to understand? I think so. Remember all of them is big challenge.
+: Currently, you can ignore it, I will show you the basic concept step by step. When you understand all of them, you can go back and see the definition  later.
+
 * Core concepts
 
 * Process
-- The process is black box process
-- The data factory
+- The process is black box
 - The box doesn't care the outside world
 
 .image go-flow-based-programing/concept_black_box_process.png
 
+: The first one, FBP defines an application as networks of blackbox processes
+: In FBP, smallest unit handles the logic of application is processes.
+: The process, don't care about outide. It just handle the logic that's pre-defined
+: As the image, you see we have three of processes, you don't know what's inside of them but you know the role of them.
+: The `Read file` use to will have logic read file, `Slit words` have logic to slit a content to words, counter may count something
+: But you will see something wrong with processes, if the processes don't care about outside, how they get information about outside.
+: How the process `Get file` can get the link of file. and How to return the content value
+
 * Ports
 - Way the processes communicate with outside world
-- A process one or many inputs/outputs ports
+- A process can have one or many inputs/outputs ports
 - The "black box" process looks like data factory
 
 .image go-flow-based-programing/concept_ports.png
@@ -36,7 +52,7 @@ Flow-based Programing is a programing paradigm that defines applications as netw
 : So we need something called connection
 
 * Connection
-- The network is defined externally to the processes
+- The connection is defined externally to the processes
 - The blackbox processes can be reuse in other application by re-conected without any changes.
 - The connections work as streams of structured data chunks, called information packages (IPs)
 
@@ -189,19 +205,3 @@ func (p *StateExample) OnIn2(item String) {
 
 : Based on channel, the goflow supports 3 types of ports: Input port, output port bi-direction port
 : The goflow support event when the connection are close to clean the data or resource
-
-* Real project
-
-Where to apply (describe about project)
-How to apply Components models
-Performance
-
-* Advantages
-
- - 
-
-* Disadvantages
-
- -
-
-* Roadmap

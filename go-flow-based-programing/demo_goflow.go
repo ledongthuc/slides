@@ -12,9 +12,12 @@ type Greeter struct {
 	flow.Component
 	Name <-chan string // input port
 	Res  chan<- string // output port
+
+	counter int
 }
 
 func (g *Greeter) OnName(name string) {
+	counter = counter + 1
 	greeting := fmt.Sprintf("Hello, %s!", name)
 	g.Res <- greeting //send the greeting to the output port/
 }
@@ -46,11 +49,14 @@ func NewGreetingApp() *GreetingApp {
 	n.InitGraphState()
 
 	// Add processes into application
-	n.Add(new(Greeter), "greeter")
+	greeter := new(Greeter)
+	greeter.Component.Mode = flow.ComponentModePool
+	greeter.Component.PoolSize = 8
+	n.Add(greeter, "greeter")
 	n.Add(new(Printer), "printer")
 
 	// Create the connection
-	n.Connect("greeter", "Res", "printer", "Line")
+	n.Connect("greeter", "Res111", "printer", "Line")
 
 	// Create the Application port
 	n.MapInPort("In", "greeter", "Name")
