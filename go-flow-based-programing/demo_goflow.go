@@ -49,10 +49,7 @@ func NewGreetingApp() *GreetingApp {
 	n.InitGraphState()
 
 	// Add processes into application
-	greeter := new(Greeter)
-	greeter.Component.Mode = flow.ComponentModePool
-	greeter.Component.PoolSize = 8
-	n.Add(greeter, "greeter")
+	n.Add(new(Greeter), "greeter")
 	n.Add(new(Printer), "printer")
 
 	// Create the connection

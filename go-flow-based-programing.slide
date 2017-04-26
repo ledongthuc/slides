@@ -161,26 +161,24 @@ Goflow 3 different concurrency models at process level
 * Goflow - State lock
 - Support built-in lock in process
 
-```
-type StateExample struct {
-	flow.Component
+  type StateExample struct {
+    flow.Component
 
-	In1 <-chan string
+    In1 <-chan string
 
-	// lock
-	StateLock *sync.Mutex
+    // lock
+    StateLock *sync.Mutex
 
-	// state
-	counter int       
-	buffer  [32]string 
-}
+    // state
+    counter int       
+    buffer  [32]string 
+  }
 
-func (p *StateExample) OnIn2(item String) {
-	// We can safely modify fields here
-	p.buffer = append(item, s)
-	p.counter++
-}
-```
+  func (p *StateExample) OnIn2(item String) {
+    // We can safely modify fields here
+    p.buffer = append(item, s)
+    p.counter++
+  }
 
 : GoFlow provides a built-in mechanism to make state modification thread-safe for asynchronous processes
 
